@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width,
+        initial-scale=1.0,
+        maximum-scale=1.0,
+        user-scalable=no"
+    >
+
+    <meta
+        name="theme-color"
+        content="#10131a"
+    >
+
+    <title>Block Drop</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+</head>
+
+<body>
+
+    <main class="game">
+
+        <!-- TOP BAR -->
+        <header class="topbar">
+
+            <div>
+                <div class="title">
+                    BLOCK DROP
+                </div>
+
+                <div class="subtitle">
+                    Place blocks. Clear lines.
+                </div>
+            </div>
+
+            <div class="top-actions">
+
+                <button
+                    id="soundBtn"
+                    class="icon-btn"
+                >
+                    🔊
+                </button>
+
+                <button
+                    id="pauseBtn"
+                    class="icon-btn"
+                >
+                    Ⅱ
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <!-- SCORE -->
+        <section class="scorebar">
+
+            <div class="score-box">
+
+                <span>SCORE</span>
+
+                <strong id="score">
+                    0
+                </strong>
+
+            </div>
+
+
+            <div class="score-box">
+
+                <span>BEST</span>
+
+                <strong id="bestScore">
+                    0
+                </strong>
+
+            </div>
+
+        </section>
+
+
+        <!-- BOARD -->
+        <section class="board-wrap">
+
+            <div
+                id="board"
+                aria-label="Game board"
+            ></div>
+
+            <div
+                id="scorePopup"
+                class="score-popup"
+            ></div>
+
+        </section>
+
+
+        <!-- PIECES TITLE -->
+        <div class="choose">
+            CHOOSE A BLOCK
+        </div>
+
+
+        <!-- THREE PIECES -->
+        <section
+            id="pieces"
+            aria-label="Available blocks"
+        ></section>
+
+
+        <!-- NEW GAME -->
+        <button
+            id="newGameBtn"
+            class="new-game"
+        >
+            NEW GAME
+        </button>
+
+    </main>
+
+
+    <!-- PAUSE -->
+    <div
+        id="pauseOverlay"
+        class="overlay"
+    >
+
+        <div class="modal">
+
+            <h2>
+                PAUSED
+            </h2>
+
+            <button
+                id="resumeBtn"
+                class="primary-btn"
+            >
+                RESUME
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- GAME OVER -->
+    <div
+        id="gameOverOverlay"
+        class="overlay"
+    >
+
+        <div class="modal">
+
+            <h2>
+                GAME OVER
+            </h2>
+
+            <p>
+                Score:
+                <strong id="finalScore">
+                    0
+                </strong>
+            </p>
+
+            <button
+                id="playAgainBtn"
+                class="primary-btn"
+            >
+                PLAY AGAIN
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- GAME JAVASCRIPT -->
+    <script src="game.js"></script>
+
+</body>
+</html>
