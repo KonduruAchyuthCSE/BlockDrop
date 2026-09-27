@@ -1,0 +1,548 @@
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100%;
+    background: #10131a;
+    color: #ffffff;
+    font-family: Arial, Helvetica, sans-serif;
+    overflow-x: hidden;
+}
+
+body {
+    min-height: 100vh;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+button {
+    font: inherit;
+    border: 0;
+    outline: none;
+}
+
+/* =========================
+   MAIN GAME
+========================= */
+
+.game {
+    width: 100%;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 16px 16px 24px;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.title {
+    font-size: 32px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.subtitle {
+    margin-top: 9px;
+    color: #92959f;
+    font-size: 17px;
+}
+
+.top-actions {
+    display: flex;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.icon-btn {
+    width: 68px;
+    height: 68px;
+    border-radius: 21px;
+    background: #191d27;
+    color: #ffffff;
+    font-size: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.icon-btn:active {
+    transform: scale(0.95);
+}
+
+/* =========================
+   SCORE
+========================= */
+
+.scorebar {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 22px;
+}
+
+.score-box {
+    min-height: 92px;
+    padding: 15px 18px;
+    border-radius: 23px;
+    background: #191d27;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.score-box span {
+    color: #858994;
+    font-size: 17px;
+    letter-spacing: 2px;
+}
+
+.score-box strong {
+    color: #ffffff;
+    font-size: 36px;
+    font-weight: 900;
+}
+
+/* =========================
+   BOARD
+========================= */
+
+.board-wrap {
+    position: relative;
+    width: 100%;
+    margin-top: 22px;
+
+    display: flex;
+    justify-content: center;
+}
+
+#board {
+    width: min(100%, 360px);
+    aspect-ratio: 1 / 1;
+
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(8, 1fr);
+
+    gap: 0;
+    padding: 8px;
+
+    border-radius: 22px;
+    background: #191d27;
+
+    touch-action: none;
+}
+
+/* EMPTY CELLS = INVISIBLE */
+
+.board-cell {
+    width: 100%;
+    height: 100%;
+
+    background: transparent;
+
+    border-radius: 7px;
+}
+
+/* ONLY FILLED CELLS ARE VISIBLE */
+
+.board-cell.filled {
+    background: var(--block-color, #35d0b1);
+
+    box-shadow:
+        inset 0 -3px 0 rgba(0, 0, 0, 0.12),
+        inset 0 2px 0 rgba(255, 255, 255, 0.12);
+}
+
+/* CLEAR ANIMATION */
+
+.board-cell.clearing {
+    animation: clearBlock 0.35s ease forwards;
+}
+
+@keyframes clearBlock {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.12);
+        opacity: 0.75;
+    }
+
+    100% {
+        transform: scale(0);
+        opacity: 0;
+    }
+}
+
+/* =========================
+   SCORE POPUP
+========================= */
+
+.score-popup {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+
+    color: #ffffff;
+    font-size: 28px;
+    font-weight: 900;
+
+    pointer-events: none;
+    opacity: 0;
+    z-index: 50;
+}
+
+.score-popup.show {
+    animation: scorePopup 0.8s ease-out forwards;
+}
+
+@keyframes scorePopup {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -30%);
+    }
+
+    20% {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -100%);
+    }
+}
+
+/* =========================
+   CHOOSE A BLOCK
+========================= */
+
+.choose {
+    margin-top: 20px;
+
+    text-align: center;
+
+    color: #8d9099;
+    font-size: 19px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+/* =========================
+   BOTTOM PIECES
+========================= */
+
+#pieces {
+    width: 100%;
+    height: 125px;
+
+    margin-top: 5px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    gap: 8px;
+
+    touch-action: none;
+}
+
+.piece {
+    position: relative;
+
+    width: 105px;
+    height: 110px;
+
+    flex-shrink: 0;
+
+    display: grid;
+    place-items: center;
+
+    touch-action: none;
+    cursor: grab;
+}
+
+.piece:active {
+    cursor: grabbing;
+}
+
+.piece .mini-block {
+    position: absolute;
+
+    width: 34px;
+    height: 34px;
+
+    border-radius: 9px;
+
+    background: var(--block-color, #35d0b1);
+
+    box-shadow:
+        inset 0 -3px 0 rgba(0, 0, 0, 0.12),
+        inset 0 2px 0 rgba(255, 255, 255, 0.12);
+}
+
+/* =========================
+   DRAG COPY
+========================= */
+
+.block-drag-copy {
+    position: fixed;
+
+    pointer-events: none;
+
+    z-index: 9999;
+
+    display: grid;
+
+    touch-action: none;
+}
+
+.block-drag-copy .mini-block {
+    position: absolute;
+
+    border-radius: 7px;
+
+    background: var(--block-color, #35d0b1);
+
+    box-shadow:
+        inset 0 -3px 0 rgba(0, 0, 0, 0.12),
+        inset 0 2px 0 rgba(255, 255, 255, 0.12);
+}
+
+/* =========================
+   NEW GAME
+========================= */
+
+.new-game {
+    width: 100%;
+    height: 66px;
+
+    margin-top: 4px;
+    margin-bottom: 8px;
+
+    border-radius: 23px;
+
+    background: #1b1f29;
+    color: #ffffff;
+
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: 1px;
+
+    cursor: pointer;
+}
+
+.new-game:active {
+    transform: scale(0.98);
+    background: #242934;
+}
+
+/* =========================
+   OVERLAYS
+========================= */
+
+.overlay {
+    position: fixed;
+
+    inset: 0;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    background: rgba(8, 10, 15, 0.78);
+
+    z-index: 10000;
+}
+
+.overlay.show {
+    display: flex;
+}
+
+.modal {
+    width: min(90%, 390px);
+
+    padding: 32px 24px;
+
+    border-radius: 28px;
+
+    background: #191d27;
+
+    text-align: center;
+
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+}
+
+.modal h2 {
+    margin: 0 0 15px;
+
+    font-size: 32px;
+    font-weight: 900;
+}
+
+.modal p {
+    margin: 0 0 24px;
+
+    color: #a0a3ad;
+    font-size: 20px;
+}
+
+.modal p strong {
+    color: #ffffff;
+}
+
+/* =========================
+   PRIMARY BUTTON
+========================= */
+
+.primary-btn {
+    width: 100%;
+    height: 62px;
+
+    border-radius: 18px;
+
+    background: #ffffff;
+    color: #10131a;
+
+    font-size: 20px;
+    font-weight: 900;
+
+    cursor: pointer;
+}
+
+.primary-btn:active {
+    transform: scale(0.97);
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 430px) {
+
+    .game {
+        padding: 14px 12px 20px;
+    }
+
+    .title {
+        font-size: 30px;
+    }
+
+    .subtitle {
+        font-size: 16px;
+    }
+
+    .icon-btn {
+        width: 62px;
+        height: 62px;
+        border-radius: 19px;
+        font-size: 28px;
+    }
+
+    .scorebar {
+        margin-top: 20px;
+        gap: 12px;
+    }
+
+    .score-box {
+        min-height: 86px;
+        padding: 14px 17px;
+        border-radius: 21px;
+    }
+
+    .score-box span {
+        font-size: 16px;
+    }
+
+    .score-box strong {
+        font-size: 34px;
+    }
+
+    .board-wrap {
+        margin-top: 20px;
+    }
+
+    #board {
+        width: min(100%, 350px);
+        padding: 7px;
+        border-radius: 21px;
+    }
+
+    .choose {
+        margin-top: 18px;
+        font-size: 18px;
+    }
+
+    #pieces {
+        height: 112px;
+        margin-top: 2px;
+    }
+
+    .piece {
+        width: 96px;
+        height: 100px;
+    }
+
+    .piece .mini-block {
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+    }
+
+    .new-game {
+        height: 64px;
+        margin-top: 3px;
+        margin-bottom: 6px;
+        border-radius: 21px;
+        font-size: 21px;
+    }
+}
+
+@media (max-width: 350px) {
+
+    .title {
+        font-size: 27px;
+    }
+
+    .icon-btn {
+        width: 57px;
+        height: 57px;
+    }
+
+    #board {
+        width: min(100%, 325px);
+    }
+
+    .piece {
+        width: 88px;
+    }
+
+    .piece .mini-block {
+        width: 30px;
+        height: 30px;
+    }
+}
